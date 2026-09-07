@@ -406,8 +406,7 @@ function App() {
       {/* Sticky Navbar */}
       <header className="navbar">
         <div className="brand-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <span className="brand-text">DOOM</span>
-          <span className="brand-badge">OTT</span>
+          <img src="/logo.jpg" alt="DOOM OTT Logo" className="navbar-logo-img" />
         </div>
 
         <nav>
@@ -487,14 +486,24 @@ function App() {
             <span>⚡ THE ULTIMATE 3D OTT ECOSYSTEM • APP LAUNCHING SOON ⚡</span>
           </motion.div>
 
-          <motion.h1 
-            className="hero-main-title"
-            initial={{ opacity: 0, scale: 0.9 }}
+          {/* Official Animated Brand Logo */}
+          <motion.div 
+            className="hero-official-logo-wrap"
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            STREAM WITHOUT LIMITS.<br />
-            <span className="title-glow-yellow">DOOM OTT</span>
+            <img src="/logo.jpg" alt="DOOM OTT Official Logo" className="hero-logo-img" />
+          </motion.div>
+
+          <motion.h1 
+            className="hero-main-title"
+            style={{ fontSize: 'clamp(1.8rem, 3.8vw, 3.2rem)', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.2rem' }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+          >
+            STREAM WITHOUT LIMITS
           </motion.h1>
 
           <motion.p 
@@ -727,7 +736,7 @@ function App() {
                 <div className="phone-dynamic-island" />
                 <div className="phone-screen-content">
                   <div className="phone-nav-bar">
-                    <span className="phone-title-logo">DOOM OTT</span>
+                    <img src="/logo.jpg" alt="DOOM OTT" style={{ height: '22px', objectFit: 'contain' }} />
                     <Radio size={16} color="#FFE600" />
                   </div>
 
@@ -1011,8 +1020,7 @@ function App() {
         <div className="footer-inner">
           <div>
             <div className="brand-logo">
-              <span className="brand-text">DOOM</span>
-              <span className="brand-badge">OTT</span>
+              <img src="/logo.jpg" alt="DOOM OTT" className="footer-logo-img" />
             </div>
             <p className="footer-brand-desc">
               Doom OTT is the next-generation entertainment hub delivering blockbusters, short-form viral reels, chart-topping original music, and gripping web shows in an immersive 3D realm.
