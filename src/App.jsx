@@ -210,6 +210,7 @@ const SHOWCASE_DATA = [
     rating: '9.4',
     badge: 'Trending #1',
     quality: '4K IMAX',
+    image: '/posters/kalki.jpg',
     desc: 'An adrenaline-fueled cyber rebellion where ancient prophecies meet futuristic orbital warfare.',
     gradient: 'linear-gradient(135deg, #FFB800 0%, #3a2e00 50%, #111111 100%)'
   },
@@ -222,19 +223,21 @@ const SHOWCASE_DATA = [
     rating: '9.1',
     badge: 'Exclusive',
     quality: 'Dolby Vision',
+    image: '/posters/samurai.jpg',
     desc: 'A rogue cyber-blade hunts corporate oligarchs across the rain-soaked skies of Neo-Mumbai.',
     gradient: 'linear-gradient(135deg, #FFE600 0%, #5a4b00 50%, #0a0a0a 100%)'
   },
   {
     category: 'movies',
-    title: 'Velocity: Golden Heist',
+    title: 'Velocity: Night Fury',
     type: 'Movie',
     genre: 'High Octane Race Action',
     duration: '1h 58m',
     rating: '8.9',
     badge: 'Original',
     quality: '4K Ultra',
-    desc: 'Supercars customized with sonic thrusters battle high in the desert canyons for a $10 Billion vault.',
+    image: '/posters/velocity.jpg',
+    desc: 'Supercars customized with sonic thrusters battle high in the neon city streets for a $10B vault.',
     gradient: 'linear-gradient(135deg, #FF9900 0%, #472600 50%, #0d0d0d 100%)'
   },
 
@@ -248,7 +251,8 @@ const SHOWCASE_DATA = [
     rating: '9.8',
     badge: 'Viral Short',
     quality: '60 FPS',
-    desc: 'Breathtaking POV drone shots through midnight city highway intersections.',
+    image: '/posters/drift.jpg',
+    desc: 'Breathtaking POV drone shots through midnight city highway intersections with burning tire smoke.',
     gradient: 'linear-gradient(135deg, #FFF017 0%, #685b00 50%, #0f0f0f 100%)'
   },
   {
@@ -260,19 +264,21 @@ const SHOWCASE_DATA = [
     rating: '9.6',
     badge: '9.2M Views',
     quality: 'Spatial Hi-Fi',
-    desc: 'Live DJ crowd explosion at Sunburn Cyber Arena with insane laser synchronization.',
+    image: '/posters/concert.jpg',
+    desc: 'Live DJ crowd explosion at Sunburn Cyber Arena with insane golden laser synchronization.',
     gradient: 'linear-gradient(135deg, #FFC700 0%, #4c3c00 50%, #121212 100%)'
   },
   {
     category: 'shorts',
-    title: 'Cosmic VFX Breakdown',
+    title: 'Starfall VFX Breakdown',
     type: 'Short',
     genre: '3D CGI Reel',
     duration: '0:50s',
     rating: '9.5',
     badge: 'Trending',
     quality: '4K HDR',
-    desc: 'Watch a black hole rendered with 100 million particles transform before your eyes.',
+    image: '/posters/starship.jpg',
+    desc: 'Watch a golden solar nebula rendered with 100 million particles transform before your eyes.',
     gradient: 'linear-gradient(135deg, #E5A900 0%, #3b2c00 50%, #090909 100%)'
   },
 
@@ -286,6 +292,7 @@ const SHOWCASE_DATA = [
     rating: '9.9',
     badge: 'Official Theme',
     quality: 'Dolby Atmos',
+    image: '/posters/music.jpg',
     desc: 'Heavy 808s, soaring synth arpeggios, and raw vocal anthems that shake your subwoofers.',
     gradient: 'linear-gradient(135deg, #FFE600 0%, #7d6e00 50%, #171714 100%)'
   },
@@ -293,12 +300,13 @@ const SHOWCASE_DATA = [
     category: 'songs',
     title: 'Midnight Highway Melody',
     type: 'Song',
-    genre: 'Lo-Fi Punjabi Wave',
+    genre: 'Lo-Fi Night Drive',
     duration: '2:58m',
     rating: '9.3',
     badge: 'Top Chart',
     quality: 'Lossless Audio',
-    desc: 'Mellow nocturnal rhythms blending acoustic guitar with hypnotic midnight lyrics.',
+    image: '/posters/highway.jpg',
+    desc: 'Mellow nocturnal rhythms blending warm acoustic tones with hypnotic midnight rain beats.',
     gradient: 'linear-gradient(135deg, #FFD000 0%, #524300 50%, #10100e 100%)'
   },
   {
@@ -310,7 +318,8 @@ const SHOWCASE_DATA = [
     rating: '9.7',
     badge: 'Viral Audio',
     quality: 'Studio Master',
-    desc: 'High-energy festive beats remixed with hardstyle synthesizers for ultimate rave energy.',
+    image: '/posters/dhol.jpg',
+    desc: 'High-energy live festive beats remixed with hardstyle synthesizers and explosive golden pyro.',
     gradient: 'linear-gradient(135deg, #FFB800 0%, #614600 50%, #0a0a08 100%)'
   },
 
@@ -324,19 +333,21 @@ const SHOWCASE_DATA = [
     rating: '9.5',
     badge: 'Binge-Worthy',
     quality: '4K HDR10+',
-    desc: 'An underground empire ruled by black market tech and ruthless cyber mercenaries.',
+    image: '/posters/syndicate.jpg',
+    desc: 'An underground empire ruled by black market tech and ruthless corporate boardroom barons.',
     gradient: 'linear-gradient(135deg, #FFE600 0%, #3f3600 50%, #0f0e08 100%)'
   },
   {
     category: 'shows',
-    title: 'Starship Chronicles',
+    title: 'Starfall: The Golden Nebula',
     type: 'Show',
     genre: 'Deep Space Odyssey',
     duration: '10 Episodes',
     rating: '9.2',
     badge: 'Original Series',
     quality: 'Dolby Vision',
-    desc: 'A stranded crew explores uncharted anomalies at the edge of the known universe.',
+    image: '/posters/starship.jpg',
+    desc: 'A colossal explorer cruiser navigates uncharted golden solar flares at the universe’s edge.',
     gradient: 'linear-gradient(135deg, #FFB800 0%, #4d3a00 50%, #13120d 100%)'
   },
   {
@@ -348,7 +359,8 @@ const SHOWCASE_DATA = [
     rating: '9.0',
     badge: 'Trending',
     quality: 'Spatial Sound',
-    desc: 'India’s top music producers battle live in 60-minute beat making challenges.',
+    image: '/posters/concert.jpg',
+    desc: 'India’s top music producers battle live in 60-minute beat making challenges under arena lasers.',
     gradient: 'linear-gradient(135deg, #FFCF00 0%, #4a3e00 50%, #0c0b08 100%)'
   }
 ];
@@ -609,10 +621,19 @@ function App() {
                   layout
                 >
                   <div className="media-poster-box">
-                    <div 
-                      className="poster-bg-gradient"
-                      style={{ background: item.gradient }}
-                    />
+                    {item.image ? (
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="media-poster-img"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div 
+                        className="poster-bg-gradient"
+                        style={{ background: item.gradient }}
+                      />
+                    )}
                     <div className="poster-overlay" />
 
                     <div className="card-top-badges">
@@ -711,7 +732,14 @@ function App() {
                   </div>
 
                   {/* Featured Phone Card */}
-                  <div className="phone-hero-card">
+                  <div 
+                    className="phone-hero-card"
+                    style={{
+                      backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%), url(/posters/kalki.jpg)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center 15%'
+                    }}
+                  >
                     <span className="phone-hero-badge">PREMIERE</span>
                     <span className="phone-hero-title">Kalki: The Dark Eclipse</span>
                     <span style={{ fontSize: '0.75rem', color: '#ffec80' }}>Streaming in 4K HDR</span>
@@ -723,15 +751,36 @@ function App() {
 
                   {/* Mini Shorts Reel */}
                   <div className="phone-shorts-strip">
-                    <div className="phone-short-box">
+                    <div 
+                      className="phone-short-box"
+                      style={{
+                        backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%), url(/posters/drift.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
                       <Play size={14} fill="#FFE600" color="#FFE600" />
                       <span>Speed Drift</span>
                     </div>
-                    <div className="phone-short-box">
+                    <div 
+                      className="phone-short-box"
+                      style={{
+                        backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%), url(/posters/concert.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
                       <Play size={14} fill="#FFE600" color="#FFE600" />
                       <span>Beat Drop</span>
                     </div>
-                    <div className="phone-short-box">
+                    <div 
+                      className="phone-short-box"
+                      style={{
+                        backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%), url(/posters/starship.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    >
                       <Play size={14} fill="#FFE600" color="#FFE600" />
                       <span>CGI Reel</span>
                     </div>
@@ -740,7 +789,11 @@ function App() {
                   {/* Mini Music Bar */}
                   <div className="phone-music-player-bar">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Music size={16} color="#FFE600" />
+                      <img 
+                        src="/posters/music.jpg" 
+                        alt="Music" 
+                        style={{ width: 28, height: 28, borderRadius: 6, objectFit: 'cover' }} 
+                      />
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <span style={{ fontSize: '0.75rem', fontWeight: 800 }}>Doom Anthem</span>
                         <span style={{ fontSize: '0.65rem', color: '#888' }}>Spatial 3D Audio</span>
@@ -867,7 +920,9 @@ function App() {
                 position: 'relative',
                 height: '380px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #1f1b00 0%, #000 60%, #302600 100%)',
+                backgroundImage: 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.85) 100%), url(/posters/samurai.jpg)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center 20%',
                 border: '1px solid rgba(255, 230, 0, 0.4)',
                 overflow: 'hidden',
                 display: 'flex',
