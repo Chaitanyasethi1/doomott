@@ -406,7 +406,7 @@ function App() {
       {/* Sticky Navbar */}
       <header className="navbar">
         <div className="brand-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <img src="/logo.jpg" alt="DOOM OTT Logo" className="navbar-logo-img" />
+          <img src="/logo.png" alt="DOOM OTT Logo" className="navbar-logo-img" />
         </div>
 
         <nav>
@@ -493,7 +493,7 @@ function App() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <img src="/logo.jpg" alt="DOOM OTT Official Logo" className="hero-logo-img" />
+            <img src="/logo.png" alt="DOOM OTT Official Logo" className="hero-logo-img" />
           </motion.div>
 
           <motion.h1 
@@ -736,7 +736,7 @@ function App() {
                 <div className="phone-dynamic-island" />
                 <div className="phone-screen-content">
                   <div className="phone-nav-bar">
-                    <img src="/logo.jpg" alt="DOOM OTT" style={{ height: '22px', objectFit: 'contain' }} />
+                    <img src="/logo.png" alt="DOOM OTT" style={{ height: '22px', objectFit: 'contain' }} />
                     <Radio size={16} color="#FFE600" />
                   </div>
 
@@ -1020,7 +1020,7 @@ function App() {
         <div className="footer-inner">
           <div>
             <div className="brand-logo">
-              <img src="/logo.jpg" alt="DOOM OTT" className="footer-logo-img" />
+              <img src="/logo.png" alt="DOOM OTT" className="footer-logo-img" />
             </div>
             <p className="footer-brand-desc">
               Doom OTT is the next-generation entertainment hub delivering blockbusters, short-form viral reels, chart-topping original music, and gripping web shows in an immersive 3D realm.

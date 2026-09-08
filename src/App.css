@@ -77,50 +77,54 @@
 }
 
 .navbar-logo-img {
-  height: 48px;
+  height: 38px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(255, 230, 0, 0.4));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(255, 230, 0, 0.5));
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .brand-logo:hover .navbar-logo-img {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.7));
+  filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.8));
 }
 
 .hero-official-logo-wrap {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   display: flex;
   justify-content: center;
   position: relative;
+  z-index: 5;
 }
 
 .hero-logo-img {
-  max-width: 480px;
-  width: 85vw;
+  max-width: 360px;
+  width: 70vw;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 45px rgba(255, 230, 0, 0.6));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 35px rgba(255, 230, 0, 0.65));
   animation: heroLogoFloat 4s ease-in-out infinite alternate;
 }
 
 @keyframes heroLogoFloat {
-  0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 35px rgba(255, 230, 0, 0.45)); }
-  100% { transform: translateY(-8px) scale(1.02); filter: drop-shadow(0 0 60px rgba(255, 230, 0, 0.75)); }
+  0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.5)); }
+  100% { transform: translateY(-8px) scale(1.03); filter: drop-shadow(0 0 45px rgba(255, 230, 0, 0.8)); }
 }
 
 .footer-logo-img {
-  height: 52px;
+  height: 42px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 15px rgba(255, 230, 0, 0.3));
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 15px rgba(255, 230, 0, 0.4));
   transition: transform 0.3s ease;
 }
 
 .footer-logo-img:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.6));
+  filter: drop-shadow(0 0 25px rgba(255, 230, 0, 0.7));
 }
 
 .nav-links {
