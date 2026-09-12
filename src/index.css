@@ -1,27 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap');
 
 :root {
-  --primary-yellow: #FFE600;
-  --neon-yellow: #FFF017;
-  --gold-accent: #FFB800;
-  --deep-yellow: #E5A900;
-  
+  /* Matte Muted Gold Palette - Refined & Subtle (No neon / harsh gloss) */
+  --gold-primary: #D4AF37;
+  --gold-light: #E5C378;
+  --gold-muted: #C5A059;
+  --gold-dark: #9A7B38;
+  --gold-subtle: rgba(212, 175, 55, 0.14);
+  --gold-border: rgba(212, 175, 55, 0.22);
+  --gold-border-focus: rgba(212, 175, 55, 0.55);
+  --gold-glow: 0 0 20px rgba(212, 175, 55, 0.18);
+  --gold-glow-hover: 0 0 30px rgba(212, 175, 55, 0.32);
+
+  /* Deep Black & Obsidian Surfaces */
   --bg-black: #080808;
-  --bg-surface: #101010;
-  --bg-card: rgba(18, 18, 18, 0.75);
-  --bg-card-hover: rgba(26, 26, 26, 0.9);
-  
+  --bg-surface: #0E0E0E;
+  --bg-card: rgba(18, 18, 18, 0.85);
+  --bg-card-hover: rgba(26, 26, 26, 0.95);
+  --bg-card-solid: #141414;
+  --bg-elevated: #1A1A1A;
+
+  /* Typography Colors */
   --text-primary: #FFFFFF;
-  --text-secondary: #A0A0A0;
-  --text-muted: #666666;
-  
-  --border-subtle: rgba(255, 230, 0, 0.12);
-  --border-glow: rgba(255, 230, 0, 0.45);
-  --yellow-glow: 0 0 25px rgba(255, 230, 0, 0.35);
-  --yellow-glow-strong: 0 0 45px rgba(255, 230, 0, 0.6);
-  
-  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --text-secondary: #D1D1D1;
+  --text-muted: #888888;
+  --text-dim: #555555;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-glass: rgba(212, 175, 55, 0.16);
+
+  /* Typography */
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
+
+  /* Heights */
+  --nav-height: 72px;
+  --bottom-nav-height: 68px;
 }
 
 * {
@@ -33,6 +48,7 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-black);
+  color-scheme: dark;
 }
 
 body {
@@ -45,29 +61,40 @@ body {
 }
 
 #root {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: relative;
 }
 
-/* Custom Scrollbar - Black and Yellow */
+/* Custom Scrollbar - Matte Charcoal & Gold */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
   background: #080808;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a24;
+  background: #262626;
   border-radius: 4px;
-  border: 1px solid rgba(255, 230, 0, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.15);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-yellow);
+  background: var(--gold-primary);
 }
 
-/* Selection */
+/* Text Selection */
 ::selection {
-  background: var(--primary-yellow);
-  color: #000;
+  background: var(--gold-primary);
+  color: #000000;
+}
+
+/* Common Utility Classes */
+.matte-gold-text {
+  color: var(--gold-primary);
+}
+
+.gradient-matte-gold-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5C378 40%, #D4AF37 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
