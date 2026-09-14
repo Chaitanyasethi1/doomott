@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 import './App.css';
 import BrandLogo from './components/BrandLogo';
@@ -143,10 +143,10 @@ export default function App() {
         </div>
 
         <div className="footer-bottom-row">
-          <span>© {new Date().getFullYear()} DOOM OTT Inc. All rights reserved. Designed for the next generation of mobile streaming.</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span style={{ color: 'var(--gold-primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-              <Sparkles size={13} /> MATTE GOLD & OBSIDIAN EDITION
+          <span>© {new Date().getFullYear()} DOOM OTT Inc. All rights reserved.</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <span style={{ color: 'var(--text-muted)' }}>
+              Developed By <strong style={{ color: 'var(--gold-primary)', fontWeight: 700 }}>ABS (Aggarwal Business Solutions)</strong>
             </span>
             <button 
               onClick={handleReplayIntro}
