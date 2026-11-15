@@ -21,9 +21,15 @@ function AppContent() {
   const { data, isAdminAuthenticated, loginAdmin } = useWebsiteData();
   const { branding = {}, appLinks = {} } = data || {};
 
+  const checkIsAdminUrl = () => {
+    const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+    const hash = window.location.hash.toLowerCase();
+    return path === '/admin' || hash === '#admin';
+  };
+
   // Navigation State
   const [currentPage, setCurrentPage] = useState(() => {
-    return window.location.hash === '#admin' ? 'admin' : 'home';
+    return checkIsAdminUrl() ? 'admin' : 'home';
   });
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -33,10 +39,10 @@ function AppContent() {
   const [showreelOpen, setShowreelOpen] = useState(false);
   const [isAudioActive, setIsAudioActive] = useState(true);
 
-  // Sync with URL hash and keyboard shortcut (Ctrl+Shift+A)
+  // Sync with URL pathname (/admin), hash (#admin), and keyboard shortcut (Ctrl+Shift+A)
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#admin') {
+    const handleUrlChange = () => {
+      if (checkIsAdminUrl()) {
         setCurrentPage('admin');
       }
     };
@@ -44,14 +50,24 @@ function AppContent() {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
         e.preventDefault();
-        setCurrentPage((prev) => (prev === 'admin' ? 'home' : 'admin'));
+        setCurrentPage((prev) => {
+          const next = prev === 'admin' ? 'home' : 'admin';
+          if (next === 'admin') {
+            window.history.pushState(null, '', '/admin');
+          } else {
+            window.history.pushState(null, '', '/');
+          }
+          return next;
+        });
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    window.addEventListener('popstate', handleUrlChange);
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+      window.removeEventListener('popstate', handleUrlChange);
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
@@ -66,26 +82,31 @@ function AppContent() {
     setShowIntro(true);
   };
 
+  const navigateToAdmin = () => {
+    setCurrentPage('admin');
+    window.history.pushState(null, '', '/admin');
+  };
+
+  const exitAdmin = () => {
+    setCurrentPage('home');
+    window.location.hash = '';
+    window.history.pushState(null, '', '/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // If in Admin Mode, render full-screen Admin Console or Login
   if (currentPage === 'admin') {
     if (!isAdminAuthenticated) {
       return (
         <AdminLogin
           onLogin={loginAdmin}
-          onCancel={() => {
-            setCurrentPage('home');
-            window.location.hash = '';
-          }}
+          onCancel={exitAdmin}
         />
       );
     }
     return (
       <AdminPanel
-        onExit={() => {
-          setCurrentPage('home');
-          window.location.hash = '';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onExit={exitAdmin}
       />
     );
   }
@@ -226,10 +247,7 @@ function AppContent() {
               <RefreshCw size={12} /> Replay 3D Intro
             </button>
             <button
-              onClick={() => {
-                setCurrentPage('admin');
-                window.location.hash = '#admin';
-              }}
+              onClick={() => navigateToAdmin()}
               style={{
                 background: 'rgba(212, 175, 55, 0.1)',
                 border: '1px solid rgba(212, 175, 55, 0.3)',

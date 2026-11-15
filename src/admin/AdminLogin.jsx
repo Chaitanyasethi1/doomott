@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Lock, Eye, EyeOff, ArrowLeft, KeyRound, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Lock, Eye, EyeOff, ArrowLeft, AlertCircle } from 'lucide-react';
 import BrandLogo from '../components/BrandLogo';
 
 export default function AdminLogin({ onLogin, onCancel }) {
@@ -11,13 +11,13 @@ export default function AdminLogin({ onLogin, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!password.trim()) {
-      setError('Please enter the admin password or PIN');
+      setError('Please enter the admin security password');
       return;
     }
 
     const success = onLogin(password);
     if (!success) {
-      setError('Incorrect password or PIN. (Master Password: Doom@Harish009)');
+      setError('Incorrect security password or PIN. Please try again.');
     } else {
       setError('');
     }
@@ -62,7 +62,7 @@ export default function AdminLogin({ onLogin, onCancel }) {
               <input
                 type={showPassword ? 'text' : 'password'}
                 className="admin-input-text font-mono"
-                placeholder="Enter password (Doom@Harish009)"
+                placeholder="Enter admin password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -79,16 +79,6 @@ export default function AdminLogin({ onLogin, onCancel }) {
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
-          </div>
-
-          <div 
-            className="admin-credentials-hint" 
-            style={{ cursor: 'pointer' }}
-            onClick={() => setPassword('Doom@Harish009')}
-            title="Click to auto-fill password"
-          >
-            <KeyRound size={14} className="matte-gold-text" />
-            <span>Master Password: <code className="gold-code">Doom@Harish009</code> (Click to fill)</span>
           </div>
 
           <button type="submit" className="btn-matte-gold full-width admin-submit-btn">

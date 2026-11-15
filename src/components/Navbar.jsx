@@ -27,6 +27,16 @@ export default function Navbar({
   const handleNavClick = (page, rowId = null) => {
     onPageChange(page);
     setMobileMenuOpen(false);
+    if (page === 'admin') {
+      window.history.pushState(null, '', '/admin');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (window.location.pathname.toLowerCase().replace(/\/$/, '') === '/admin' || window.location.hash === '#admin') {
+      window.history.pushState(null, '', '/');
+    }
+
     if (page === 'home') {
       if (rowId) {
         setTimeout(() => {

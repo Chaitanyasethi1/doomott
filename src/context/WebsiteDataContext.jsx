@@ -100,10 +100,10 @@ export function WebsiteDataProvider({ children }) {
 
         if (cloudRow && cloudRow.content) {
           if (isMounted) {
-            setData((prev) => ({
+            setData({
               ...DEFAULT_WEBSITE_DATA,
               ...cloudRow.content
-            }));
+            });
             setCloudStatus('connected');
           }
           try {
@@ -135,10 +135,10 @@ export function WebsiteDataProvider({ children }) {
         { event: '*', schema: 'public', table: 'website_content', filter: 'id=eq.main' },
         (payload) => {
           if (payload.new && payload.new.content && isMounted) {
-            setData((prev) => ({
+            setData({
               ...DEFAULT_WEBSITE_DATA,
               ...payload.new.content
-            }));
+            });
             try {
               localStorage.setItem(STORAGE_KEY, JSON.stringify(payload.new.content));
             } catch {}
@@ -171,10 +171,11 @@ export function WebsiteDataProvider({ children }) {
   // Auth functions - Permanent Master Password Support
   const loginAdmin = (password) => {
     const trimmed = (password || '').trim();
+    const normalized = trimmed.toLowerCase().replace(/\.$/, '');
     if (
       MASTER_PASSWORDS.includes(trimmed) ||
       trimmed === adminPassword ||
-      trimmed.toLowerCase() === 'doom@harish009'
+      normalized === 'doom@harish009'
     ) {
       setIsAdminAuthenticated(true);
       try {

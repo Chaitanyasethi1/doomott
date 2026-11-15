@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Play, Download, Info, ChevronLeft, ChevronRight, Star, 
-  Sparkles, Zap, Smartphone, Headphones, ShieldCheck, 
+  Play, Download, Info, ChevronLeft, ChevronRight, 
+  Sparkles, Zap, Headphones, ShieldCheck, 
   Flame, CheckCircle, ArrowRight, Plus, X, Tv, Film, Video, Music
 } from 'lucide-react';
 import { useWebsiteData } from '../context/WebsiteDataContext';
