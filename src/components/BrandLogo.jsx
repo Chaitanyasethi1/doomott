@@ -1,10 +1,23 @@
 import React from 'react';
+import { useWebsiteData } from '../context/WebsiteDataContext';
 
 /**
  * BrandLogo - Clean, 2D-refined vector logo for DOOM OTT with matte muted gold accent.
- * Replaces the glossy/chrome neon glare with a modern, flat, cinematic mark.
+ * Also supports custom logo image if uploaded by admin.
  */
-export default function BrandLogo({ size = 'medium', showText = true, className = '', onClick }) {
+export default function BrandLogo({ 
+  size = 'medium', 
+  showText = true, 
+  className = '', 
+  onClick,
+  customLogoUrl,
+  customText 
+}) {
+  const context = useWebsiteData();
+  const branding = context?.data?.branding;
+  const dynamicLogoUrl = customLogoUrl || branding?.logoUrl;
+  const dynamicSiteName = customText || branding?.siteName;
+
   // Dimension scales
   const dimensions = {
     small: { iconSize: 28, fontSize: '1.15rem', badgeSize: '0.65rem' },
@@ -25,56 +38,71 @@ export default function BrandLogo({ size = 'medium', showText = true, className 
         userSelect: 'none'
       }}
     >
-      {/* Matte Gold Monogram Emblem */}
-      <svg
-        width={dimensions.iconSize}
-        height={dimensions.iconSize}
-        viewBox="0 0 100 100"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ flexShrink: 0 }}
-      >
-        {/* Rounded Hex / Shield Outline */}
-        <rect
-          x="6"
-          y="6"
-          width="88"
-          height="88"
-          rx="22"
-          fill="#0E0E0E"
-          stroke="url(#matteGoldBorder)"
-          strokeWidth="3.5"
+      {/* If admin uploaded a custom logo image, render it */}
+      {dynamicLogoUrl ? (
+        <img
+          src={dynamicLogoUrl}
+          alt={dynamicSiteName || 'Brand Logo'}
+          style={{
+            height: dimensions.iconSize,
+            width: 'auto',
+            maxHeight: dimensions.iconSize * 1.2,
+            objectFit: 'contain',
+            borderRadius: '6px'
+          }}
         />
+      ) : (
+        /* Default Matte Gold Monogram Emblem */
+        <svg
+          width={dimensions.iconSize}
+          height={dimensions.iconSize}
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ flexShrink: 0 }}
+        >
+          {/* Rounded Hex / Shield Outline */}
+          <rect
+            x="6"
+            y="6"
+            width="88"
+            height="88"
+            rx="22"
+            fill="#0E0E0E"
+            stroke="url(#matteGoldBorder)"
+            strokeWidth="3.5"
+          />
 
-        {/* Minimal D / Media Play Shape */}
-        <path
-          d="M32 26 H52 C65 26 73 34 73 50 C73 66 65 74 52 74 H32 V26 Z M44 38 V62 H51 C58 62 61 57 61 50 C61 43 58 38 51 38 H44 Z"
-          fill="url(#matteGoldFill)"
-        />
+          {/* Minimal D / Media Play Shape */}
+          <path
+            d="M32 26 H52 C65 26 73 34 73 50 C73 66 65 74 52 74 H32 V26 Z M44 38 V62 H51 C58 62 61 57 61 50 C61 43 58 38 51 38 H44 Z"
+            fill="url(#matteGoldFill)"
+          />
 
-        {/* Subtle Play Triangle Accent inside D */}
-        <path
-          d="M48 44 L56 50 L48 56 Z"
-          fill="#0E0E0E"
-        />
+          {/* Subtle Play Triangle Accent inside D */}
+          <path
+            d="M48 44 L56 50 L48 56 Z"
+            fill="#0E0E0E"
+          />
 
-        {/* Gradients - Muted matte gold, no neon sheen */}
-        <defs>
-          <linearGradient id="matteGoldFill" x1="32" y1="26" x2="73" y2="74" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#E5C378" />
-            <stop offset="0.6" stopColor="#D4AF37" />
-            <stop offset="1" stopColor="#C5A059" />
-          </linearGradient>
+          {/* Gradients - Muted matte gold, no neon sheen */}
+          <defs>
+            <linearGradient id="matteGoldFill" x1="32" y1="26" x2="73" y2="74" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#E5C378" />
+              <stop offset="0.6" stopColor="#D4AF37" />
+              <stop offset="1" stopColor="#C5A059" />
+            </linearGradient>
 
-          <linearGradient id="matteGoldBorder" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#E5C378" stopOpacity="0.8" />
-            <stop offset="0.5" stopColor="#D4AF37" stopOpacity="0.3" />
-            <stop offset="1" stopColor="#9A7B38" stopOpacity="0.7" />
-          </linearGradient>
-        </defs>
-      </svg>
+            <linearGradient id="matteGoldBorder" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#E5C378" stopOpacity="0.8" />
+              <stop offset="0.5" stopColor="#D4AF37" stopOpacity="0.3" />
+              <stop offset="1" stopColor="#9A7B38" stopOpacity="0.7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      )}
 
-      {/* Typography: DOOM OTT */}
+      {/* Typography: DOOM OTT (or custom site name) */}
       {showText && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', lineHeight: 1 }}>
           <span
@@ -86,7 +114,7 @@ export default function BrandLogo({ size = 'medium', showText = true, className 
               color: '#FFFFFF'
             }}
           >
-            DOOM
+            {dynamicSiteName ? dynamicSiteName.replace(/ OTT$/i, '') : 'DOOM'}
           </span>
           <span
             style={{

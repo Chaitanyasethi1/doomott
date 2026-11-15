@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { RefreshCw, ShieldCheck } from 'lucide-react';
 
 import './App.css';
 import BrandLogo from './components/BrandLogo';
@@ -12,19 +12,49 @@ import ShowreelModal from './components/ShowreelModal';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import SupportPage from './pages/SupportPage';
+import AdminPanel from './admin/AdminPanel';
+import AdminLogin from './admin/AdminLogin';
+import { WebsiteDataProvider, useWebsiteData } from './context/WebsiteDataContext';
 import { handleSmartAppRedirect } from './utils/appRedirect';
-import { APP_CONFIG } from './config/appLinks';
 
-export default function App() {
+function AppContent() {
+  const { data, isAdminAuthenticated, loginAdmin } = useWebsiteData();
+  const { branding = {}, appLinks = {} } = data || {};
+
   // Navigation State
-  const [currentPage, setCurrentPage] = useState('home'); // 'home' | 'about' | 'support'
-  const [activeCategory, setActiveCategory] = useState('all'); // 'all' | 'movies' | 'shorts' | 'songs' | 'shows'
+  const [currentPage, setCurrentPage] = useState(() => {
+    return window.location.hash === '#admin' ? 'admin' : 'home';
+  });
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  // Modals & 3D Intro (starts as true on page load so intro is immediately visible)
+  // Modals & 3D Intro
   const [showIntro, setShowIntro] = useState(true);
   const [appModalOpen, setAppModalOpen] = useState(false);
   const [showreelOpen, setShowreelOpen] = useState(false);
   const [isAudioActive, setIsAudioActive] = useState(true);
+
+  // Sync with URL hash and keyboard shortcut (Ctrl+Shift+A)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '#admin') {
+        setCurrentPage('admin');
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setCurrentPage((prev) => (prev === 'admin' ? 'home' : 'admin'));
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleOpenAppModal = () => {
     handleSmartAppRedirect(() => {
@@ -35,6 +65,30 @@ export default function App() {
   const handleReplayIntro = () => {
     setShowIntro(true);
   };
+
+  // If in Admin Mode, render full-screen Admin Console or Login
+  if (currentPage === 'admin') {
+    if (!isAdminAuthenticated) {
+      return (
+        <AdminLogin
+          onLogin={loginAdmin}
+          onCancel={() => {
+            setCurrentPage('home');
+            window.location.hash = '';
+          }}
+        />
+      );
+    }
+    return (
+      <AdminPanel
+        onExit={() => {
+          setCurrentPage('home');
+          window.location.hash = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+    );
+  }
 
   return (
     <div className="app-wrapper">
@@ -104,7 +158,7 @@ export default function App() {
           <div>
             <BrandLogo size="medium" onClick={() => { setCurrentPage('home'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
             <p className="footer-brand-desc">
-              DOOM OTT is the unified entertainment platform fusing viral instant shorts, 4K blockbuster cinema, studio-grade lossless songs, and captivating web series with spatial 3D audio.
+              {branding.footerDesc || 'DOOM OTT is the unified entertainment platform fusing viral instant shorts, 4K blockbuster cinema, studio-grade lossless songs, and captivating web series with spatial 3D audio.'}
             </p>
           </div>
 
@@ -112,10 +166,10 @@ export default function App() {
           <div>
             <h4 className="footer-col-title">CONTENT VAULT</h4>
             <ul className="footer-links-list">
-              <li onClick={() => { setCurrentPage('home'); setActiveCategory('movies'); document.getElementById('media-vault')?.scrollIntoView({ behavior: 'smooth' }); }}>4K Blockbusters</li>
-              <li onClick={() => { setCurrentPage('home'); setActiveCategory('shorts'); document.getElementById('media-vault')?.scrollIntoView({ behavior: 'smooth' }); }}>Viral Instant Shorts</li>
-              <li onClick={() => { setCurrentPage('home'); setActiveCategory('songs'); document.getElementById('media-vault')?.scrollIntoView({ behavior: 'smooth' }); }}>Lossless Studio Songs</li>
-              <li onClick={() => { setCurrentPage('home'); setActiveCategory('shows'); document.getElementById('media-vault')?.scrollIntoView({ behavior: 'smooth' }); }}>Original Web Shows</li>
+              <li onClick={() => { setCurrentPage('home'); setActiveCategory('movies'); document.getElementById('movies-row')?.scrollIntoView({ behavior: 'smooth' }); }}>4K Blockbusters</li>
+              <li onClick={() => { setCurrentPage('home'); setActiveCategory('shorts'); document.getElementById('shorts-row')?.scrollIntoView({ behavior: 'smooth' }); }}>Viral Instant Shorts</li>
+              <li onClick={() => { setCurrentPage('home'); setActiveCategory('songs'); document.getElementById('songs-row')?.scrollIntoView({ behavior: 'smooth' }); }}>Lossless Studio Songs</li>
+              <li onClick={() => { setCurrentPage('home'); setActiveCategory('shows'); document.getElementById('movies-row')?.scrollIntoView({ behavior: 'smooth' }); }}>Original Web Shows</li>
             </ul>
           </div>
 
@@ -136,17 +190,25 @@ export default function App() {
             <ul className="footer-links-list">
               <li onClick={() => { setCurrentPage('support'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>FAQ & Troubleshooting</li>
               <li onClick={() => { setCurrentPage('support'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Contact 24/7 Support</li>
-              <li><a href={APP_CONFIG.INSTAGRAM_URL} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>Instagram (@doomott)</a></li>
-              <li><a href={APP_CONFIG.YOUTUBE_URL} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>YouTube Channel</a></li>
+              <li>
+                <a href={appLinks.instagramUrl || 'https://instagram.com/doomott'} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  Instagram (@doomott)
+                </a>
+              </li>
+              <li>
+                <a href={appLinks.youtubeUrl || 'https://youtube.com/@doomott'} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+                  YouTube Channel
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom-row">
-          <span>© {new Date().getFullYear()} DOOM OTT Inc. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {branding.copyrightText || 'DOOM OTT Inc. All rights reserved.'}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <span style={{ color: 'var(--text-muted)' }}>
-              Developed By <strong style={{ color: 'var(--gold-primary)', fontWeight: 700 }}>ABS (Aggarwal Business Solutions)</strong>
+              {branding.developerCredit || 'Developed By ABS (Aggarwal Business Solutions)'}
             </span>
             <button 
               onClick={handleReplayIntro}
@@ -163,9 +225,37 @@ export default function App() {
             >
               <RefreshCw size={12} /> Replay 3D Intro
             </button>
+            <button
+              onClick={() => {
+                setCurrentPage('admin');
+                window.location.hash = '#admin';
+              }}
+              style={{
+                background: 'rgba(212, 175, 55, 0.1)',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
+                color: 'var(--gold-primary)',
+                cursor: 'pointer',
+                fontSize: '0.8rem',
+                padding: '0.3rem 0.6rem',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.3rem'
+              }}
+            >
+              <ShieldCheck size={12} /> Admin Portal
+            </button>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <WebsiteDataProvider>
+      <AppContent />
+    </WebsiteDataProvider>
   );
 }

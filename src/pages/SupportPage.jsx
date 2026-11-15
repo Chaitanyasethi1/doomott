@@ -3,49 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, ChevronDown, ChevronUp, Mail, Smartphone, ShieldCheck, 
   HelpCircle, MessageSquare, AlertCircle, PlayCircle, CreditCard, 
-  Send, CheckCircle, ExternalLink
+  Send, CheckCircle, ExternalLink, Phone
 } from 'lucide-react';
-import { APP_CONFIG } from '../config/appLinks';
-
-const FAQ_DATA = [
-  {
-    category: 'download',
-    question: 'How do I download and install the DOOM OTT app?',
-    answer: 'You can download the DOOM OTT app directly from the Google Play Store for Android devices or the Apple App Store for iOS devices. On desktop, click "Get App" in the navbar to scan the QR code directly with your smartphone camera.'
-  },
-  {
-    category: 'playback',
-    question: 'What video and audio qualities are supported?',
-    answer: 'DOOM OTT supports video playback from adaptive 720p HD up to native 4K Ultra HD with HDR10+ and Dolby Vision on supported mobile and smart TV displays. Our music vault streams lossless 24-bit audio with spatial 3D surround sound.'
-  },
-  {
-    category: 'subscription',
-    question: 'How do I claim and activate my 3-Month Free VIP Pass?',
-    answer: 'Simply enter your mobile number or email in the VIP Pass section on the homepage. You will receive a unique coupon code. When you first log into the DOOM OTT app, enter this code under Profile > VIP Pass to unlock 3 months of ad-free 4K streaming at zero cost.'
-  },
-  {
-    category: 'account',
-    question: 'Can I stream on multiple devices with a single account?',
-    answer: 'Yes! A standard DOOM OTT VIP account allows concurrent streaming across up to 4 devices simultaneously, including smartphones, tablets, laptops, and Android TVs.'
-  },
-  {
-    category: 'shorts',
-    question: 'How can creators publish shorts and songs on DOOM OTT?',
-    answer: 'We offer an open Creator Portal where certified filmmakers, musicians, and reel creators can submit content for algorithmic distribution and revenue-share monetization. Contact support@doomott.com with your portfolio to get early creator access.'
-  },
-  {
-    category: 'playback',
-    question: 'Does music playback continue when the screen is locked?',
-    answer: 'Yes! DOOM OTT features a dedicated background audio player that lets you listen to songs, playlists, and podcast episodes uninterrupted even when your phone screen is switched off or while using other apps.'
-  },
-  {
-    category: 'download',
-    question: 'Can I download movies and episodes for offline viewing?',
-    answer: 'Yes, VIP pass holders can download titles in high definition to their device storage for offline playback during flights or areas with low mobile connectivity.'
-  }
-];
+import { useWebsiteData } from '../context/WebsiteDataContext';
 
 export default function SupportPage({ onOpenAppModal }) {
+  const { data } = useWebsiteData();
+  const { supportPage = {}, appLinks = {} } = data || {};
+  const faqsList = supportPage.faqs || [];
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
@@ -55,14 +21,14 @@ export default function SupportPage({ onOpenAppModal }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const filteredFaqs = useMemo(() => {
-    return FAQ_DATA.filter((item) => {
+    return faqsList.filter((item) => {
       const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
       const matchesSearch = searchQuery.trim() === '' || 
-        item.question.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        item.answer.toLowerCase().includes(searchQuery.toLowerCase());
+        (item.question && item.question.toLowerCase().includes(searchQuery.toLowerCase())) || 
+        (item.answer && item.answer.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, faqsList]);
 
   const toggleFaq = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -80,14 +46,18 @@ export default function SupportPage({ onOpenAppModal }) {
       <section className="support-hero-section">
         <span className="hero-badge-pill">
           <HelpCircle size={14} className="matte-gold-text" />
-          <span>HELP & CUSTOMER SUCCESS</span>
+          <span>{supportPage.heroBadge || 'HELP & CUSTOMER SUCCESS'}</span>
         </span>
 
         <h1 className="support-main-title">
-          How Can We <span className="gradient-matte-gold-text">Help You?</span>
+          {supportPage.heroTitle ? (
+            supportPage.heroTitle
+          ) : (
+            <>How Can We <span className="gradient-matte-gold-text">Help You?</span></>
+          )}
         </h1>
         <p className="support-main-subtext">
-          Search frequently asked questions, learn about the app download process, or reach out to our dedicated 24/7 support team.
+          {supportPage.heroSubtitle || 'Search frequently asked questions, learn about the app download process, or reach out to our dedicated 24/7 support team.'}
         </p>
 
         {/* Live Search Bar */}
@@ -119,110 +89,99 @@ export default function SupportPage({ onOpenAppModal }) {
         <div className="issues-grid">
           <div 
             className="issue-card"
-            onClick={() => { setActiveCategory('download'); setOpenFaqIndex(0); }}
-          >
-            <div className="issue-icon-wrap">
-              <Smartphone size={22} className="matte-gold-text" />
-            </div>
-            <h3>App Download & Setup</h3>
-            <p>Step-by-step installation guides for Android APK, Play Store & Apple TestFlight.</p>
-          </div>
-
-          <div 
-            className="issue-card"
-            onClick={() => { setActiveCategory('playback'); setOpenFaqIndex(1); }}
-          >
-            <div className="issue-icon-wrap">
-              <PlayCircle size={22} className="matte-gold-text" />
-            </div>
-            <h3>Playback & Streaming</h3>
-            <p>Troubleshooting buffering, 4K HDR display switching, and spatial audio sync.</p>
-          </div>
-
-          <div 
-            className="issue-card"
-            onClick={() => { setActiveCategory('subscription'); setOpenFaqIndex(2); }}
+            onClick={() => { setActiveCategory('subscription'); }}
           >
             <div className="issue-icon-wrap">
               <CreditCard size={22} className="matte-gold-text" />
             </div>
-            <h3>VIP Pass & Rewards</h3>
-            <p>Redeeming promo codes, checking trial duration, and account subscription tiers.</p>
+            <h3>VIP Pass & Trials</h3>
+            <p>How to activate your 3-month free pass and redeem codes inside the mobile app.</p>
           </div>
 
           <div 
             className="issue-card"
-            onClick={() => { setActiveCategory('account'); setOpenFaqIndex(3); }}
+            onClick={() => { setActiveCategory('download'); }}
+          >
+            <div className="issue-icon-wrap">
+              <Smartphone size={22} className="matte-gold-text" />
+            </div>
+            <h3>Download & Install</h3>
+            <p>Direct download links for Google Play Store, iOS App Store, and Android APK.</p>
+          </div>
+
+          <div 
+            className="issue-card"
+            onClick={() => { setActiveCategory('playback'); }}
+          >
+            <div className="issue-icon-wrap">
+              <PlayCircle size={22} className="matte-gold-text" />
+            </div>
+            <h3>4K & Audio Streaming</h3>
+            <p>Troubleshoot video stutter, HDR playback issues, and spatial 3D audio features.</p>
+          </div>
+
+          <div 
+            className="issue-card"
+            onClick={() => { setActiveCategory('account'); }}
           >
             <div className="issue-icon-wrap">
               <ShieldCheck size={22} className="matte-gold-text" />
             </div>
             <h3>Account & Devices</h3>
-            <p>Managing linked devices, resetting PIN/passwords, and privacy preferences.</p>
+            <p>Manage simultaneous device streams, change profile pins, and update email.</p>
           </div>
         </div>
       </section>
 
-      {/* FAQ Accordion Section */}
-      <section className="faq-section">
-        <div className="faq-header-row">
-          <h2 className="section-title">Frequently Asked Questions</h2>
+      {/* FAQs Section */}
+      <section className="faqs-main-section">
+        <div className="faqs-header-row">
+          <div>
+            <span className="section-pill-tag">KNOWLEDGE BASE</span>
+            <h2 className="section-title">Frequently Asked Questions</h2>
+          </div>
+
+          {/* Filter Tabs */}
           <div className="faq-category-pills">
-            <button 
-              className={`faq-pill ${activeCategory === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('all')}
-            >
-              All FAQs
-            </button>
-            <button 
-              className={`faq-pill ${activeCategory === 'download' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('download')}
-            >
-              Downloads
-            </button>
-            <button 
-              className={`faq-pill ${activeCategory === 'playback' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('playback')}
-            >
-              Streaming
-            </button>
-            <button 
-              className={`faq-pill ${activeCategory === 'subscription' ? 'active' : ''}`}
-              onClick={() => setActiveCategory('subscription')}
-            >
-              VIP Pass
-            </button>
+            {['all', 'download', 'playback', 'subscription', 'account', 'shorts'].map((cat) => (
+              <button
+                key={cat}
+                className={`category-pill ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="faq-accordion-list">
+        {/* FAQ Accordion List */}
+        <div className="faq-accordion-wrap">
           {filteredFaqs.length > 0 ? (
-            filteredFaqs.map((item, idx) => {
-              const isOpen = openFaqIndex === idx;
+            filteredFaqs.map((faq, index) => {
+              const isOpen = openFaqIndex === index;
               return (
-                <div 
-                  key={idx} 
-                  className={`faq-accordion-item ${isOpen ? 'open' : ''}`}
-                >
+                <div key={faq.id || index} className="faq-item-card">
                   <button 
                     className="faq-question-btn"
-                    onClick={() => toggleFaq(idx)}
-                    aria-expanded={isOpen}
+                    onClick={() => toggleFaq(index)}
                   >
-                    <span>{item.question}</span>
-                    {isOpen ? <ChevronUp size={18} className="matte-gold-text" /> : <ChevronDown size={18} />}
+                    <span className="faq-q-text">{faq.question}</span>
+                    <span className="faq-toggle-icon">
+                      {isOpen ? <ChevronUp size={20} className="matte-gold-text" /> : <ChevronDown size={20} />}
+                    </span>
                   </button>
 
                   <AnimatePresence>
                     {isOpen && (
                       <motion.div
-                        className="faq-answer-drawer"
+                        className="faq-answer-pane"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
+                        transition={{ duration: 0.2 }}
                       >
-                        <p>{item.answer}</p>
+                        <p>{faq.answer}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -230,58 +189,86 @@ export default function SupportPage({ onOpenAppModal }) {
               );
             })
           ) : (
-            <div className="faq-empty-state">
+            <div className="no-faqs-found">
               <AlertCircle size={32} className="matte-gold-text" />
-              <p>No FAQ articles matched your search query "{searchQuery}".</p>
+              <p>No matching questions found for "{searchQuery}".</p>
               <button 
                 className="btn-outline-gold"
                 onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}
               >
-                Reset Search Filters
+                Reset Filter
               </button>
             </div>
           )}
         </div>
       </section>
 
-      {/* Contact & Support Inquiry Form */}
-      <section className="support-contact-section">
-        <div className="contact-card-wrapper">
+      {/* Contact & Support Ticket Section */}
+      <section className="contact-support-section">
+        <div className="contact-support-container">
+          {/* Left Info Column */}
           <div className="contact-info-col">
-            <span className="section-pill-tag">DIRECT INQUIRIES</span>
-            <h3 className="contact-heading">Can't Find What You Need?</h3>
-            <p className="contact-text">
-              Our support engineers and developer team are available 24/7 to resolve technical issues or assist with creator onboarding.
+            <span className="section-pill-tag">24/7 HELPDESK</span>
+            <h2 className="section-title">Still Need Assistance?</h2>
+            <p className="contact-lead-text">
+              Our technical engineering and customer support teams are available 24 hours a day, 7 days a week.
             </p>
 
             <div className="contact-methods-list">
               <div className="contact-method-item">
-                <Mail size={18} className="matte-gold-text" />
+                <div className="method-icon-wrap">
+                  <Mail size={20} className="matte-gold-text" />
+                </div>
                 <div>
-                  <strong>Official Email Support</strong>
-                  <p>{APP_CONFIG.SUPPORT_EMAIL}</p>
+                  <h4>Direct Email Support</h4>
+                  <p>Average response within 15 minutes</p>
+                  <a href={`mailto:${appLinks.supportEmail || 'support@doomott.com'}`} className="matte-gold-text font-bold">
+                    {appLinks.supportEmail || 'support@doomott.com'}
+                  </a>
                 </div>
               </div>
 
               <div className="contact-method-item">
-                <MessageSquare size={18} className="matte-gold-text" />
+                <div className="method-icon-wrap">
+                  <Phone size={20} className="matte-gold-text" />
+                </div>
                 <div>
-                  <strong>Community Discord & Telegram</strong>
-                  <p>Join 25,000+ community members for instant updates</p>
+                  <h4>Helpline Phone</h4>
+                  <p>Toll-free customer hotline</p>
+                  <span className="text-white font-bold">{appLinks.supportPhone || '+91 (800) 420-DOOM'}</span>
+                </div>
+              </div>
+
+              <div className="contact-method-item">
+                <div className="method-icon-wrap">
+                  <Smartphone size={20} className="matte-gold-text" />
+                </div>
+                <div>
+                  <h4>In-App Priority Chat</h4>
+                  <p>VIP Pass subscribers get instant live chat directly inside the Android / iOS mobile app.</p>
+                  <button 
+                    onClick={onOpenAppModal}
+                    className="link-btn-gold"
+                  >
+                    Open Download Link <ExternalLink size={14} />
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Right Ticket Form Column */}
           <div className="contact-form-col">
+            <h3 className="form-title">Send a Direct Message</h3>
+            
             {!formSubmitted ? (
-              <form onSubmit={handleFormSubmit} className="contact-form">
+              <form onSubmit={handleFormSubmit} className="support-ticket-form">
                 <div className="form-group">
-                  <label>Your Name</label>
+                  <label>Your Full Name</label>
                   <input
                     type="text"
                     required
-                    placeholder="Enter full name..."
+                    placeholder="e.g. Rahul Sharma"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
@@ -292,7 +279,7 @@ export default function SupportPage({ onOpenAppModal }) {
                   <input
                     type="email"
                     required
-                    placeholder="name@example.com"
+                    placeholder="e.g. rahul@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   />

@@ -1,12 +1,16 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Smartphone, Download, QrCode, ArrowRight, ShieldCheck, Check } from 'lucide-react';
+import { X, Smartphone, Download, QrCode, ArrowRight, ShieldCheck } from 'lucide-react';
 import { APP_CONFIG } from '../config/appLinks';
 import { detectDevice } from '../utils/appRedirect';
 import BrandLogo from './BrandLogo';
+import { useWebsiteData } from '../context/WebsiteDataContext';
 
 export default function AppDownloadModal({ isOpen, onClose }) {
   const device = detectDevice();
+  const { data } = useWebsiteData();
+  const links = { ...APP_CONFIG, ...(data?.appLinks || {}) };
+  const siteName = data?.branding?.siteName || 'DOOM OTT';
 
   if (!isOpen) return null;
 
@@ -33,7 +37,7 @@ export default function AppDownloadModal({ isOpen, onClose }) {
           </div>
 
           <h2 className="download-modal-title">
-            Download <span className="matte-gold-text">DOOM OTT</span>
+            Download <span className="matte-gold-text">{siteName}</span>
           </h2>
           <p className="download-modal-subtitle">
             Experience ultra-smooth 4K streaming, 60fps vertical shorts, and background spatial music on your smartphone.
@@ -99,7 +103,7 @@ export default function AppDownloadModal({ isOpen, onClose }) {
                 <div className="store-buttons-column">
                   <span className="store-group-label">Direct App Store Links</span>
                   <a
-                    href={APP_CONFIG.PLAYSTORE_URL}
+                    href={links.playStoreUrl || links.PLAYSTORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="store-btn google-play"
@@ -115,7 +119,7 @@ export default function AppDownloadModal({ isOpen, onClose }) {
                   </a>
 
                   <a
-                    href={APP_CONFIG.APPSTORE_URL}
+                    href={links.appStoreUrl || links.APPSTORE_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="store-btn apple-store"
@@ -129,63 +133,54 @@ export default function AppDownloadModal({ isOpen, onClose }) {
                     </div>
                     <ArrowRight size={16} className="store-arrow" />
                   </a>
-                </div>
-              </div>
-            ) : (
-              /* Mobile View: 1-Click Primary Store CTA */
-              <div className="mobile-direct-download-box">
-                {device === 'android' ? (
-                  <a
-                    href={APP_CONFIG.PLAYSTORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-matte-gold-large"
-                  >
-                    <Smartphone size={20} />
-                    <span>Download on Google Play Store</span>
-                  </a>
-                ) : (
-                  <a
-                    href={APP_CONFIG.APPSTORE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-matte-gold-large"
-                  >
-                    <Download size={20} />
-                    <span>Download on Apple App Store</span>
-                  </a>
-                )}
 
-                <div className="mobile-store-alternatives">
-                  <span>Looking for other platforms?</span>
-                  <div className="alt-links">
-                    <a href={APP_CONFIG.PLAYSTORE_URL} target="_blank" rel="noreferrer">Android APK</a>
-                    <span>•</span>
-                    <a href={APP_CONFIG.APPSTORE_URL} target="_blank" rel="noreferrer">iOS TestFlight</a>
+                  <div className="modal-trust-badge">
+                    <ShieldCheck size={16} className="matte-gold-text" />
+                    <span>Verified Official APK • 100% Virus Free • Instant Install</span>
                   </div>
                 </div>
               </div>
-            )}
+            ) : (
+              /* Mobile View: High Visibility Single Tap Direct Store Redirects */
+              <div className="mobile-download-stack">
+                <a
+                  href={device === 'ios' ? (links.appStoreUrl || links.APPSTORE_URL) : (links.playStoreUrl || links.PLAYSTORE_URL)}
+                  className="btn-matte-gold-large full-width"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Download size={20} />
+                  <span>
+                    {device === 'ios' ? 'Download for Apple iOS' : 'Download for Android (APK)'}
+                  </span>
+                </a>
 
-            {/* Feature Perks */}
-            <div className="modal-perks-row">
-              <div className="modal-perk-item">
-                <Check size={14} className="matte-gold-text" />
-                <span>Zero Ads</span>
+                <div className="store-buttons-column" style={{ marginTop: '1.2rem' }}>
+                  <a
+                    href={links.playStoreUrl || links.PLAYSTORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="store-btn google-play"
+                  >
+                    <Smartphone size={20} />
+                    <div className="store-btn-text">
+                      <span className="store-small">Google Play Store</span>
+                    </div>
+                  </a>
+
+                  <a
+                    href={links.appStoreUrl || links.APPSTORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="store-btn apple-store"
+                  >
+                    <Download size={20} />
+                    <div className="store-btn-text">
+                      <span className="store-small">Apple App Store</span>
+                    </div>
+                  </a>
+                </div>
               </div>
-              <div className="modal-perk-item">
-                <Check size={14} className="matte-gold-text" />
-                <span>4K Dolby Vision</span>
-              </div>
-              <div className="modal-perk-item">
-                <Check size={14} className="matte-gold-text" />
-                <span>Background Audio</span>
-              </div>
-              <div className="modal-perk-item">
-                <ShieldCheck size={14} className="matte-gold-text" />
-                <span>Verified Safe</span>
-              </div>
-            </div>
+            )}
           </div>
         </motion.div>
       </div>

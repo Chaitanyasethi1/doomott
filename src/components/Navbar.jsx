@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Film, Video, Music, Tv, Smartphone, Sparkles, Volume2, VolumeX, 
-  Menu, X, Download, HelpCircle, Info, Home, RefreshCw, Search
+  Film, Video, Music, Volume2, VolumeX, 
+  Menu, X, Download, HelpCircle, Info, Home, RefreshCw, ShieldCheck
 } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 
 export default function Navbar({ 
   currentPage, 
   onPageChange, 
-  activeCategory, 
-  onCategoryChange,
   isAudioActive, 
   onToggleAudio,
   onOpenAppModal,
@@ -136,6 +134,17 @@ export default function Navbar({
             <span>Get App</span>
           </button>
 
+          {/* Admin Portal Button */}
+          <button
+            className={`btn-navbar-admin ${currentPage === 'admin' ? 'active' : ''}`}
+            onClick={() => handleNavClick('admin')}
+            title="Admin Control Panel"
+            aria-label="Open Admin Panel"
+          >
+            <ShieldCheck size={15} className="matte-gold-text" />
+            <span className="admin-btn-text">Admin</span>
+          </button>
+
           {/* Mobile Menu Trigger */}
           <button 
             className="mobile-menu-btn"
@@ -186,6 +195,12 @@ export default function Navbar({
               onClick={() => handleNavClick('support')}
             >
               <HelpCircle size={18} /> Support & FAQ
+            </button>
+            <button 
+              className={`mobile-link-item ${currentPage === 'admin' ? 'active' : ''}`}
+              onClick={() => handleNavClick('admin')}
+            >
+              <ShieldCheck size={18} className="matte-gold-text" /> Admin Console
             </button>
           </div>
 
